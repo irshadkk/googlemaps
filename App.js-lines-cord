@@ -1,0 +1,60 @@
+import React, {useState, useEffect} from 'react';
+import {View, Text} from 'react-native';
+import MapView, {Polyline} from 'react-native-maps';
+import {decode} from '@mapbox/polyline';
+
+const getDirections = async (startLoc, destinationLoc) => {
+  try {
+    const KEY = 'AIzaSyBCXo_u5OGAScq1iN32sSSkVtls1VZubL4';
+    let resp = await fetch(
+      `https://maps.googleapis.com/maps/api/directions/json?origin=${startLoc}&destination=${destinationLoc}&key=${KEY}`,
+    );
+    let respJson = await resp.json();
+    let points = decode(respJson.routes[0].overview_polyline.points);
+    let coords = points.map((point, index) => {
+      return {
+        latitude: point[0],
+        longitude: point[1],
+      };
+    });
+    return coords;
+  } catch (error) {
+    return error;
+  }
+};
+
+const App = () => {
+  const [coords, setCoords] = useState([]);
+
+  useEffect(() => {
+    getDirections(
+      '11.49928150705141,76.02240850629362',
+      '11.483401581802392,75.99104358461801',
+    )
+      .then((coords) => {
+        console.log(coords);
+        setCoords(coords);
+      })
+      .catch((err) => {
+        console.log(err);
+        console.log('Something went wrong');
+      });
+  }, []);
+
+  return (
+    <>
+      <MapView
+        style={{flex: 1}}
+        initialRegion={{
+          latitude: 11.49928150705141,
+          longitude: 76.02240850629362,
+          latitudeDelta: 0.1,
+          longitudeDelta: 0.1,
+        }}>
+        {coords.length > 0 && <Polyline coordinates={coords} />}
+      </MapView>
+    </>
+  );
+};
+
+export default App;

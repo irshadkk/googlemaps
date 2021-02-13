@@ -1,0 +1,228 @@
+// import React, {Component} from 'react';
+// import {Text, View, ActivityIndicator, Button} from 'react-native';
+// import MapView from 'react-native-maps';
+// import styles from './styles';
+
+// // Disable yellow box warning messages
+// console.disableYellowBox = true;
+
+// export default class App extends Component {
+//   constructor(props) {
+//     super(props);
+//     this.state = {
+//       loading: true,
+//       region: {
+//         latitude: 10,
+//         longitude: 10,
+//         latitudeDelta: 0.001,
+//         longitudeDelta: 0.001,
+//       },
+//       isMapReady: false,
+//       marginTop: 1,
+//       userLocation: '',
+//       regionChangeProgress: false,
+//     };
+//   }
+
+//   componentWillMount() {
+//     const region = {
+//       latitude: 27.2046,
+//       longitude: 77.4977,
+//       latitudeDelta: 0.001,
+//       longitudeDelta: 0.001,
+//     };
+//     this.setState({
+//       region: region,
+//       loading: false,
+//       error: null,
+//     });
+//   }
+
+//   onMapReady = () => {
+//     this.setState({isMapReady: true, marginTop: 0});
+//   };
+
+//   // Fetch location details as a JOSN from google map API
+//   fetchAddress = () => {
+//     fetch(
+//       'https://maps.googleapis.com/maps/api/geocode/json?address=' +
+//         this.state.region.latitude +
+//         ',' +
+//         this.state.region.longitude +
+//         '&key=' +
+//         'AIzaSyAXW-WDp0MF5si6oFXaukDQuThTr1wqmDE',
+//     )
+//       .then((response) => response.json())
+//       .then((responseJson) => {
+//         const userLocation = responseJson.results[0].formatted_address;
+//         this.setState({
+//           userLocation: userLocation,
+//           regionChangeProgress: false,
+//         });
+//       });
+//   };
+
+//   // Update state on region change
+//   onRegionChange = (region) => {
+//     this.setState(
+//       {
+//         region,
+//         regionChangeProgress: true,
+//       },
+//       () => this.fetchAddress(),
+//     );
+//   };
+
+//   // Action to be taken after select location button click
+//   onLocationSelect = () => alert(this.state.userLocation);
+
+//   render() {
+//     if (this.state.loading) {
+//       return (
+//         <View style={styles.spinnerView}>
+//           <ActivityIndicator size="large" color="#0000ff" />
+//         </View>
+//       );
+//     } else {
+//       return (
+//         <View style={styles.container}>
+//           <View style={{flex: 2}}>
+//             {!!this.state.region.latitude && !!this.state.region.longitude && (
+//               <MapView
+//                 style={{...styles.map, marginTop: this.state.marginTop}}
+//                 initialRegion={this.state.region}
+//                 showsUserLocation={true}
+//                 onMapReady={this.onMapReady}
+//                 onRegionChangeComplete={this.onRegionChange}>
+//                 {/* <MapView.Marker
+//                   coordinate={{ "latitude": this.state.region.latitude, "longitude": this.state.region.longitude }}
+//                   title={"Your Location"}
+//                   draggable
+//                 /> */}
+//               </MapView>
+//             )}
+
+//             <View style={styles.mapMarkerContainer}>
+//               <Text
+//                 style={{
+//                   fontFamily: 'fontawesome',
+//                   fontSize: 42,
+//                   color: '#ad1f1f',
+//                 }}>
+//                 &#xf041;
+//               </Text>
+//             </View>
+//           </View>
+//           <View style={styles.deatilSection}>
+//             <Text
+//               style={{
+//                 fontSize: 16,
+//                 fontWeight: 'bold',
+//                 fontFamily: 'roboto',
+//                 marginBottom: 20,
+//               }}>
+//               Move map for location
+//             </Text>
+//             <Text style={{fontSize: 10, color: '#999'}}>LOCATION</Text>
+//             <Text
+//               numberOfLines={2}
+//               style={{
+//                 fontSize: 14,
+//                 paddingVertical: 10,
+//                 borderBottomColor: 'silver',
+//                 borderBottomWidth: 0.5,
+//               }}>
+//               {!this.state.regionChangeProgress
+//                 ? this.state.userLocation
+//                 : 'Identifying Location...'}
+//             </Text>
+//             <View style={styles.btnContainer}>
+//               <Button
+//                 title="PICK THIS LOCATION"
+//                 disabled={this.state.regionChangeProgress}
+//                 onPress={this.onLocationSelect}></Button>
+//             </View>
+//           </View>
+//         </View>
+//       );
+//     }
+//   }
+// }
+
+// import React, {Component} from 'react';
+// import {StyleSheet} from 'react-native';
+// import MapView, {Marker} from 'react-native-maps';
+// export default class App extends Component {
+//   render() {
+//     return (
+//       <MapView
+//         style={{...StyleSheet.absoluteFillObject}}
+//         initialRegion={{
+//           latitude: 33.7872131,
+//           longitude: -84.381931,
+//           latitudeDelta: 0.05,
+//           longitudeDelta: 0.05,
+//         }}>
+//         <Marker
+//           coordinate={{latitude: 33.7872131, longitude: -84.381931}}
+//           title="Flatiron School Atlanta"
+//           description="This is where the magic happens!"></Marker>
+//       </MapView>
+//     );
+//   }
+// }
+
+// import React, {useState} from 'react';
+
+// import MapView from 'react-native-maps';
+
+// const App = () => {
+//   const [region, setRegion] = useState({
+//     latitude: 51.5079145,
+//     longitude: -0.0899163,
+//     latitudeDelta: 0.01,
+//     longitudeDelta: 0.01,
+//   });
+
+//   return (
+//     <MapView
+//       style={{flex: 1}}
+//       region={region}
+//       onRegionChangeComplete={(region) => setRegion(region)}
+//     />
+//   );
+// };
+
+// export default App;
+
+import React, {useState} from 'react';
+
+import MapView, {Marker} from 'react-native-maps';
+
+const App = () => {
+  const [region, setRegion] = useState({
+    latitude: 51.5078788,
+    longitude: -0.0877321,
+    latitudeDelta: 0.009,
+    longitudeDelta: 0.009,
+  });
+
+  return (
+    <MapView
+      style={{flex: 1}}
+      region={region}
+      onRegionChangeComplete={(region) => setRegion(region)}>
+      <Marker coordinate={{latitude: 51.5078788, longitude: -0.0877321}} />
+      <Marker
+        coordinate={{latitude: 51.50787, longitude: -0.0866}}
+        pinColor="green"
+      />
+      <Marker
+        coordinate={{latitude: 51.50787, longitude: -0.0855}}
+        image={require('./tree.png')}
+      />
+    </MapView>
+  );
+};
+
+export default App;
